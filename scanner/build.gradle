@@ -12,7 +12,7 @@ android {
     compileSdkVersion project.hasProperty('compileSdkVersion') ? project.compileSdkVersion : DEFAULT_COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdkVersion 28
+        minSdkVersion 27
         targetSdkVersion project.hasProperty('targetSdkVersion') ? project.targetSdkVersion : DEFAULT_TARGET_SDK_VERSION
         ndk {
             abiFilters "armeabi", "armeabi-v7a"

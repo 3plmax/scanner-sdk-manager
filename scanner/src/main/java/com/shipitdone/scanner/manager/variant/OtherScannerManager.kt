@@ -20,11 +20,12 @@ class OtherScannerManager : ScannerManager {
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
             handler.post {
-                val broadCode =
-                    intent.getByteArrayExtra(RESULT_PARAMETER)
-                val code = String(broadCode!!)
-                if (!code.isEmpty()) {
-                    listener!!.onScannerResultChange(code)
+                val code =
+                    intent.getStringExtra(RESULT_PARAMETER)
+                code?.isEmpty()?.let {
+                    if (!it) {
+                        listener!!.onScannerResultChange(code)
+                    }
                 }
             }
         }

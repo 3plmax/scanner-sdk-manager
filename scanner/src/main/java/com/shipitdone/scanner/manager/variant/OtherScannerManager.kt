@@ -19,14 +19,14 @@ class OtherScannerManager : ScannerManager {
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
-            handler.post(object : Runnable {
-                override fun run() {
-                    val result = intent.getStringExtra(RESULT_PARAMETER)
-                    if (!TextUtils.isEmpty(result)) {
-                        listener!!.onScannerResultChange(result)
-                    }
+            handler.post {
+                val broadCode =
+                    intent.getByteArrayExtra(RESULT_PARAMETER)
+                val code = String(broadCode!!)
+                if (!code.isEmpty()) {
+                    listener!!.onScannerResultChange(code)
                 }
-            })
+            }
         }
     }
 
@@ -83,7 +83,20 @@ class OtherScannerManager : ScannerManager {
     companion object {
         const val ACTION_START = "com.shipitdone.scanner.START"
         const val ACTION_STOP = "com.shipitdone.scanner.STOP"
-        const val ACTION_DATA_RECEIVED = "com.shipitdone.scanner.data"
+        const val ACTION_DATA_RECEIVED = "com.shipitdone.scanner.DATA"
         const val RESULT_PARAMETER: String = "string"
+
+        private var instance: OtherScannerManager? = null
+
+        fun getInstance(): OtherScannerManager {
+            if (instance == null) {
+                synchronized(OtherScannerManager::class.java) {
+                    if (instance == null) {
+                        instance = OtherScannerManager()
+                    }
+                }
+            }
+            return instance!!
+        }
     }
 }

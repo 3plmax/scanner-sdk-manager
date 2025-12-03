@@ -17,15 +17,13 @@ class PdaScannerManager : ScannerManager {
     private var listener: ScanListener? = null
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
-            handler.post(object : Runnable {
-                override fun run() {
-                    val broadCode = intent.getByteArrayExtra(RESULT_PARAMETER)
-                    val code = String(broadCode!!)
-                    if (!code.isEmpty()) {
-                        listener!!.onScannerResultChange(code)
-                    }
+            handler.post {
+                val broadCode = intent.getByteArrayExtra(RESULT_PARAMETER)
+                val code = String(broadCode!!)
+                if (!code.isEmpty()) {
+                    listener!!.onScannerResultChange(code)
                 }
-            })
+            }
         }
     }
     private var mScanDevice: ScanDevice? = null
@@ -82,7 +80,7 @@ class PdaScannerManager : ScannerManager {
 
         fun getInstance(): PdaScannerManager {
             if (instance == null) {
-                synchronized(UrovoScannerManager::class.java) {
+                synchronized(PdaScannerManager::class.java) {
                     if (instance == null) {
                         instance = PdaScannerManager()
                     }

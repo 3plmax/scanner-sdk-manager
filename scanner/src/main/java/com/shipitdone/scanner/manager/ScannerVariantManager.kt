@@ -42,7 +42,9 @@ class ScannerVariantManager<T : ScannerManager?>(context: Context, listener: Sca
             ScannerBrand.GENERIC_CT58 -> scannerManager = Ct58ScannerManager.getInstance() as T?
             ScannerBrand.GENERIC_KP18 -> scannerManager = Kp18ScannerManager.getInstance() as T?
 
-            else -> scannerManager = OtherScannerManager() as T
+            ScannerBrand.OTHER -> scannerManager = OtherScannerManager.getInstance() as T?
+
+            else -> scannerManager = OtherScannerManager.getInstance() as T
         }
 
         Log.i("Scanner", "[scannerManager] =$scannerManager")
